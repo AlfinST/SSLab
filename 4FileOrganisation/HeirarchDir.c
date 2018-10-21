@@ -47,9 +47,6 @@ void main()
 
     while(1)
     {
-        //if( (*NowRoot).parent == NULL)
-        //    printf("In Master Root:\n");
-        //else
         status=0;
         printf("\nIn %s\n",(*NowRoot).data.PresentName);
 
@@ -70,29 +67,19 @@ void main()
                         NewDir->data.fno=0;
                         NewDir->data.dno=0;
 
-                        //printf("goint to apptempt \n");
                         sprintf(NewDir->data.currAdd,"%s/%s",(*NowRoot).data.currAdd,dname);
                         printf("NewDirCurrAdd::%s\n",NewDir->data.currAdd);
                         strcpy(NewDir->data.PresentName,dname);
                         dcnt++;
-                        //snprintf(dname, NAME_MAX + 1,"%s",f);
-                        //printf("Copied dname\n");
-                        
-                        //FILE *fLib = fopen(NewDir->data.currAdd , "w+");
-                        //fclose(fLib);
                         char libPath[PATH_MAX+1];
                         snprintf(libPath, PATH_MAX + 1, "%s/%s/", (*NowRoot).data.currAdd,dname);
                         printf("\n\n Path::%s\n",libPath );
-                        //printf("chrek,%d \n",stat(NewDir->data.currAdd), &st);
                         
                         if (stat(NewDir->data.currAdd, &st) == -1) 
                         {
                             printf("stat OK\n");
                             if(mkdir(libPath, 0755) != -1)
                             {
-                                
-                                //printf("in libPath\n");
-                                //printf("done\n");
                                 strcpy(ftemp,libPath);
                                 FILE *fLib = fopen(strcat(ftemp,"/temp.txt"), "w+");
                                 fclose(fLib);
@@ -115,15 +102,8 @@ void main()
                                  strcpy((*NowRoot).data.fname[fcnt],f);
                                  fcnt++;
                                  printf("CurrAdd::%s\nFilename::%s\n",(*NowRoot).data.currAdd,f);
-                                 //strcpy(strcat((*NowRoot).data.currAdd,f),f);
-                                 //printf("%s\n",f );
                                  snprintf(ftemp, PATH_MAX + 1, "%s/", (*NowRoot).data.currAdd);
-                                 //
-                                 //
-
-                                 //strcpy(ftemp,(*NowRoot).data.currAdd);
                                  FILE * fPointer = fopen( strcat(ftemp,f),"w+");
-                                 //printf("%s\n",strcat((*NowRoot).data.currAdd,f) );
                                  fclose(fPointer);
                                  printf("File created(%d)\n\n",fcnt);
                 break;
@@ -175,7 +155,6 @@ void main()
                         {
                             printf("\nNo Files\n ");
                         }
-                          // printf("\nDirectory & Files ::");
                         for(i=0;i<dcnt;i++)
                         {
                             printf("\nDirectory:%s",(*NowRoot).data.dirname[i]);
