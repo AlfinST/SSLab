@@ -1,0 +1,27 @@
+Q1
+simulate theh following non premptinive CPU scheduling algorithm to find turn around time and Waiting time
+
+a> FCFS
+b> SJF
+c> Round Robin
+d> priority
+
+Q2
+Simulate following Disk Schedulting Algo
+a> FCFS
+b> Scan
+c> CScan
+
+Q3
+Implement Banker's Algo. for Deadlock Avoidance
+
+Q4 Simulate the following file organising 
+a> Single level Dir.
+b> 2 level Dir.
+c> Heirarchical
+
+Q5 impplement the Producer Consumer Problem using semaphores.
+
+Q6 Write a program to simulate the working o fthe Dining Philosophers Problem.
+
+hello! 
