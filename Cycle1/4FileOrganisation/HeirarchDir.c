@@ -32,7 +32,7 @@ int DelFile(struct direct *NowRoot,char *f)
 {
     int k,jmp;
     char ftemp[NAME_MAX+1];
-    sprintf(ftemp,"%s/%s",(*NowRoot).data.currAdd,f);
+    snprintf(ftemp,PATH_MAX +1,"%s/%s",(*NowRoot).data.currAdd,f);
     printf("\n\tFile Add: %s",ftemp);
     for(k=0,jmp=0;k<fcnt;k++)
     {  
@@ -51,12 +51,20 @@ int DelFile(struct direct *NowRoot,char *f)
 
 
 //struct direct *stack[MAX_INPUT+1];
+struct direct *queue[MAX_INPUT+1];
 int StkCntr=-1;
+int Qmax=-1;
+//int StkCntr=-1;
+void AddQueue(struct direct *NowRoot)
+{
+    Qmax++;
+    queue[Qmax]=NowRoot;
+}
 
 
 void Deep(struct direct *DNode)
 {
-    int tempFcntr,i,j,n;
+    int tempFcntr,i,j,k,n;
     struct direct *temp;
     temp=DNode;
     //printf("\n\tIn Deep Pointing %s\n",(*DNode).data.PresentName);
@@ -87,7 +95,16 @@ void Deep(struct direct *DNode)
                     //printf("something worked!\n");
                     for(i=0;i<n;i++)
                             if( ((*DNode).parent)->roots[i] == (DNode))
-                                {
+                                {   
+                                    for(k=0;k<=Qmax;k++)
+                                    {
+                                        if(DNode == queue[k])
+                                        {
+                                            queue[k]=queue[Qmax];
+                                            Qmax--;
+                                            printf("\nRemoved From queue!");
+                                        }
+                                    }
                                     printf("\nDirectoy %s Deleted !\n",(*DNode).data.PresentName);
                                     ((*DNode).parent)->roots[i] = ((*DNode).parent)->roots[n-1];
                                     ((*DNode).parent)->data.dno--;
@@ -111,6 +128,38 @@ void DelDepth(struct direct *DNode)
     StkCntr++;
     //stack[StkCntr]=DNode;
     Deep(DNode);
+    printf("Done!\n");
+}
+
+void Search()
+{
+    int i,k,jmp;
+    char f[NAME_MAX+1];
+    struct direct *NowRoot;
+    printf("Enter name of the file -- ");
+    scanf("%s",f);  
+    for (i=0;i<=Qmax;i++)
+    {
+        NowRoot=queue[i];
+        printf("%s !!\n",(*NowRoot).data.PresentName);
+        for(k=0,jmp=1;k<fcnt;k++)
+        {   
+
+            if(strcmp(f, (*NowRoot).data.fname[k])==0)
+            {   
+                printf("\nFile %s is Found in %s\n",f,(*NowRoot).data.currAdd);
+                jmp=0;
+            }
+
+            if(jmp==0)
+                break;
+        }
+
+        if(jmp==0)
+            break;     
+    }
+    if(jmp==1)
+        printf("File  Not Found\n");
 }
 
 struct direct* newDirectory()
@@ -134,6 +183,7 @@ void main()
     MasterRoot.parent=NULL;
     strcpy(MasterRoot.data.currAdd,".");
     strcpy(MasterRoot.data.PresentName ,"Master");
+    AddQueue(&MasterRoot);
 
     while(1)
     {
@@ -161,6 +211,8 @@ void main()
                         printf("NewDirCurrAdd::%s\n",NewDir->data.currAdd);
                         strcpy(NewDir->data.PresentName,dname);
                         dcnt++;
+                        AddQueue(NewDir);
+
                         char libPath[PATH_MAX+1];
                         snprintf(libPath, PATH_MAX + 1, "%s/%s/", (*NowRoot).data.currAdd,dname);
                         printf("\n\n Path::%s\n",libPath );
@@ -209,22 +261,7 @@ void main()
                 break;
 
                 case 4: 
-                         printf("Enter name of the file -- ");
-                         scanf("%s",f);
-                        for(k=0,jmp=1;k<fcnt;k++)
-                        {   
-
-                            if(strcmp(f, (*NowRoot).data.fname[k])==0)
-                            {   
-                                printf("File %s is Found! ",f);
-                                jmp=0;
-                            }
-                            if(jmp==0)
-                                break;
-                        }
-
-                        if(jmp==1)
-                            printf("File %s not found",f);
+                        Search();
                 break;
                 case 5:
                         if(dcnt==0)
