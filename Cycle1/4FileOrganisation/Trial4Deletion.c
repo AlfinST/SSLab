@@ -1,3 +1,22 @@
+/*
+so we need  a stack pointer?.
+and in it we need to put the directorwy adress;
+so we get the directory to destroy;
+    we need to free all the directories and files within it;
+So we first put that directory to be destroyed within the stack 
+    then we go to the directory within. 
+        IF No directories i.e dcntr == 0
+            Delete all files till fcntr ==0;
+            Pop that adress of directory from stack;
+            Delete that directory;
+            That directory's parent dcntr--;
+            Go up a level;
+                If there are more directories
+                Select that directory and perform that the function;
+        Else 
+            Put that in the stack and go deeper till we reach the else condition in some step;  
+    until stack is empty;
+*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -68,7 +87,7 @@ void Deep(struct direct *DNode)
     {
         if(Tdcnt==0)
         {  
-            tempFcntr=Tfcnt;
+        	tempFcntr=Tfcnt;
             printf("\nA leaf node!\n %s \t %d",(*DNode).data.currAdd,(*DNode).data.fno);
             for( i=0,j=0;i<tempFcntr;i++)
             {   
@@ -83,25 +102,25 @@ void Deep(struct direct *DNode)
             StkCntr--;
             n=((*DNode).parent)->data.dno;
             if( ((*DNode).parent)!= NULL)
-                {   
-                    //printf("something worked!\n");
-                    for(i=0;i<n;i++)
-                            if( ((*DNode).parent)->roots[i] == (DNode))
-                                {
-                                    printf("\nDirectoy %s Deleted !\n",(*DNode).data.PresentName);
-                                    ((*DNode).parent)->roots[i] = ((*DNode).parent)->roots[n-1];
-                                    ((*DNode).parent)->data.dno--;
-                                    free(DNode);
+	            {	
+	            	//printf("something worked!\n");
+	            	for(i=0;i<n;i++)
+	            	       	if(	((*DNode).parent)->roots[i] == (DNode))
+	            	          	{
+	            	          		printf("\nDirectoy %s Deleted !\n",(*DNode).data.PresentName);
+	            					((*DNode).parent)->roots[i] = ((*DNode).parent)->roots[n-1];
+	            					((*DNode).parent)->data.dno--;
+	            					free(DNode);
 
-                                }
-                }
-            Deep((*temp).parent);
+	            	           	}
+				}
+			Deep((*temp).parent);
         }
         else
         {
-            StkCntr++;
-            //stack[StkCntr]=(*DNode).roots[0];
-            Deep((*DNode).roots[0]);
+        	StkCntr++;
+        	//stack[StkCntr]=(*DNode).roots[0];
+        	Deep((*DNode).roots[0]);
         }
     }
 }
