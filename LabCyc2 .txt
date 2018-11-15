@@ -1,0 +1,4 @@
+1.Implement pass one of a 2 pass assembler.
+2.Implement pass two of a 2 pass assembler.
+3.Absolut Loader.
+5.Implement a symbol table with suitable hashing

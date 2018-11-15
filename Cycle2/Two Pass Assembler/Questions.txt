@@ -1,0 +1,5 @@
+12. Implement pass one of two pass assembler
+13. Implement pass two of two pass assembler
+14. Implement a single pass assembler
+15. Implement a two pass macro processor
+16. Implementaion of Absoulte Loader
